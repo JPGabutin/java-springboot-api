@@ -48,3 +48,60 @@
 -   id - string
 -   type - string
 -   description - string
+
+## Getting Started
+
+### Clone the project
+
+```bash
+$ git clone git@github.com:JPGabutin/java-springboot-api.git
+$ cd java-springboot-api
+```
+
+### Install dependencies
+
+```bash
+$ mvn clean install
+```
+
+### Run database migrations
+
+* For local db
+
+```bash
+$ mvn flyway:migrate
+```
+
+* Replace config to change database target
+
+```bash
+mvn flyway:migrate \
+  -Dflyway.url=jdbc:postgresql://localhost:5432/moviedb \
+  -Dflyway.user=dev \
+  -Dflyway.password=dev
+```
+
+### Start the app
+
+```bash
+mvn spring-boot:run
+```
+
+### Clean up local db
+
+```bash
+docker compose down --volumes --remove-orphans
+```
+
+
+### Clean up flyway migrations
+
+```bash
+mvn flyway:clean
+```
+
+### Delete and rebuild target directory
+
+```bash
+mvn clean package
+```
