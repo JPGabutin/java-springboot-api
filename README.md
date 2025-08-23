@@ -92,3 +92,16 @@ mvn spring-boot:run
 ```bash
 docker compose down --volumes --remove-orphans
 ```
+
+
+### Clean up flyway migrations
+
+```bash
+mvn flyway:clean
+```
+
+### Delete and rebuild target directory
+
+```bash
+mvn clean package
+```
