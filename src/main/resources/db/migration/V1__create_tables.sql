@@ -1,33 +1,33 @@
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
-CREATE TABLE genre (
+CREATE TABLE genres (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     type TEXT NOT NULL,
     description TEXT
 );
 
-CREATE TABLE actor (
+CREATE TABLE actors (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
     birth_date DATE NOT NULL
 );
 
-CREATE TABLE director (
+CREATE TABLE directors (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
     birth_date DATE NOT NULL
 );
 
-CREATE TABLE movie (
+CREATE TABLE movies (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title TEXT NOT NULL,
     year TEXT NOT NULL,
-    director_id UUID REFERENCES director(id),
+    director_id UUID REFERENCES directors(id),
     genre UUID[] NOT NULL,
-    cast UUID[] NOT NULL
+    movie_cast UUID[] NOT NULL
 );
 
-CREATE TABLE app_user (
+CREATE TABLE app_users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
