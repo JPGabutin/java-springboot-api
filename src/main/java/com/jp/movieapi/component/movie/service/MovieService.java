@@ -1,4 +1,4 @@
-package com.jp.movieapi.component.movie.service.movie;
+package com.jp.movieapi.component.movie.service;
 
 import java.util.List;
 
