@@ -20,7 +20,8 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     public enum Sql {
-        FIND_ALL_MOVIES("SELECT id, title, year, director_id, genre, movie_cast FROM movies");
+        FIND_ALL_MOVIES("SELECT id, title, year, director_id, genre, movie_cast FROM movies"),
+        FIND_MOVIE_BY_ID("SELECT id, title, year, director_id, genre, movie_cast FROM movies where id = ?");
 
         private final String query;
 
@@ -43,5 +44,18 @@ public class MovieRepositoryImpl implements MovieRepository {
                 rs.getObject("director_id", UUID.class),
                 Arrays.asList((UUID[]) rs.getArray("genre").getArray()),
                 Arrays.asList((UUID[]) rs.getArray("movie_cast").getArray())));
+    }
+
+    @Override
+    public Movie findMovieById(UUID id) {
+        return jdbcTemplate.queryForObject(Sql.FIND_MOVIE_BY_ID.toString(),
+                (rs, rowNum) -> new Movie(
+                        rs.getObject("id", UUID.class),
+                        rs.getString("title"),
+                        rs.getString("year"),
+                        rs.getObject("director_id", UUID.class),
+                        Arrays.asList((UUID[]) rs.getArray("genre").getArray()),
+                        Arrays.asList((UUID[]) rs.getArray("movie_cast").getArray())),
+                id);
     }
 }
