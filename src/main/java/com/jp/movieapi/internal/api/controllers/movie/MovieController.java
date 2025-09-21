@@ -30,6 +30,6 @@ public class MovieController {
     @GetMapping("/{id}")
     public ResponseEntity<Movie> getMovieById(@PathVariable UUID id) {
         Movie movie = movieService.getMovieById(id);
-        return (movie != null) ? ResponseEntity.ok(movie) : ResponseEntity.notFound().build();
+        return ResponseEntity.ok(movie);
     }
 }
