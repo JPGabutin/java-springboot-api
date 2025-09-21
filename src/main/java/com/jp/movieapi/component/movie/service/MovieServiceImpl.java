@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.jp.movieapi.common.domain.ResourceNotFoundException;
+import com.jp.movieapi.internal.common.domain.ResourceNotFoundException;
 import com.jp.movieapi.component.movie.domain.Movie;
 import com.jp.movieapi.component.movie.domain.MovieRepository;
 

@@ -1,6 +1,6 @@
 package com.jp.movieapi.internal.api.controllers.exception;
 
-import com.jp.movieapi.common.domain.ResourceNotFoundException;
+import com.jp.movieapi.internal.common.domain.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

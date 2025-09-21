@@ -1,4 +1,4 @@
-package com.jp.movieapi.common.domain;
+package com.jp.movieapi.internal.common.domain;
 
 import java.util.UUID;
 
