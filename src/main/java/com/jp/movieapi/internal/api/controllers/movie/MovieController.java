@@ -1,9 +1,11 @@
 package com.jp.movieapi.internal.api.controllers.movie;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,5 +25,11 @@ public class MovieController {
     public ResponseEntity<List<Movie>> getAllMovies() {
         List<Movie> movies = movieService.listAllMovies();
         return ResponseEntity.ok(movies);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Movie> getMovieById(@PathVariable UUID id) {
+        Movie movie = movieService.getMovieById(id);
+        return ResponseEntity.ok(movie);
     }
 }
