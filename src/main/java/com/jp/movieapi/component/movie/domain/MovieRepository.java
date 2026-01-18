@@ -7,4 +7,6 @@ public interface MovieRepository {
     List<Movie> findAllMovies();
 
     Movie findMovieById(UUID id);
+
+    List<Movie> findMoviesByFilter(UUID directorId, List<UUID> actorIds, List<UUID> genreIds);
 }
