@@ -9,4 +9,6 @@ public interface MovieService {
     List<Movie> listAllMovies();
 
     Movie getMovieById(UUID id);
+
+    List<Movie> getMoviesByFilter(UUID directorId, List<UUID> actorIds, List<UUID> genreIds);
 }

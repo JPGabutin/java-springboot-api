@@ -31,4 +31,14 @@ public class MovieServiceImpl implements MovieService {
             throw new ResourceNotFoundException("Movie", id);
         }
     }
+
+    @Override
+    public List<Movie> getMoviesByFilter(UUID directorId, List<UUID> actorIds, List<UUID> genreIds) {
+        if (directorId == null && (actorIds == null || actorIds.isEmpty())
+                && (genreIds == null || genreIds.isEmpty())) {
+            throw new IllegalArgumentException("At least one filter must be provided");
+        }
+
+        return movieRepository.findMoviesByFilter(directorId, actorIds, genreIds);
+    }
 }
