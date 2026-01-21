@@ -32,7 +32,7 @@ public class Movie {
         return year;
     }
 
-    public UUID getDirector_id() {
+    public UUID getDirectorId() {
         return director_id;
     }
 
@@ -40,7 +40,7 @@ public class Movie {
         return genre;
     }
 
-    public List<UUID> getMovie_cast() {
+    public List<UUID> getMovieCast() {
         return movie_cast;
     }
 }
