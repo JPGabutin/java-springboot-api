@@ -42,25 +42,13 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     public List<Movie> findAllMovies() {
-        return jdbcTemplate.query(Sql.FIND_ALL_MOVIES.toString(), (rs, rowNum) -> new Movie(
-                rs.getObject("id", UUID.class),
-                rs.getString("title"),
-                rs.getString("year"),
-                rs.getObject("director_id", UUID.class),
-                Arrays.asList((UUID[]) rs.getArray("genre").getArray()),
-                Arrays.asList((UUID[]) rs.getArray("movie_cast").getArray())));
+        return jdbcTemplate.query(Sql.FIND_ALL_MOVIES.toString(), this::mapRowToMovie);
     }
 
     @Override
     public Movie findMovieById(UUID id) {
         return jdbcTemplate.queryForObject(Sql.FIND_MOVIE_BY_ID.toString(),
-                (rs, rowNum) -> new Movie(
-                        rs.getObject("id", UUID.class),
-                        rs.getString("title"),
-                        rs.getString("year"),
-                        rs.getObject("director_id", UUID.class),
-                        Arrays.asList((UUID[]) rs.getArray("genre").getArray()),
-                        Arrays.asList((UUID[]) rs.getArray("movie_cast").getArray())),
+                this::mapRowToMovie,
                 id);
     }
 
