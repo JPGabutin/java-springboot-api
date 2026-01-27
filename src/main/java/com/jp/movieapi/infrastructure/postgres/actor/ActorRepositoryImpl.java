@@ -19,7 +19,8 @@ public class ActorRepositoryImpl implements ActorRepository {
 
     public enum Sql {
         FIND_ALL_ACTORS("SELECT id, name, birth_date FROM actors"),
-        FIND_ACTOR_BY_ID("SELECT id, name, birth_date FROM actors where id = ?");
+        FIND_ACTOR_BY_ID("SELECT id, name, birth_date FROM actors where id = ?"),
+        EXISTS_ALL_BY_ID("SELECT COUNT(*) FROM actors WHERE id = ANY (?)");
 
         private final String query;
 
@@ -49,5 +50,17 @@ public class ActorRepositoryImpl implements ActorRepository {
                         rs.getString("name"),
                         rs.getString("birth_date")),
                 id);
+    }
+
+    @Override
+    public boolean existsAll(List<UUID> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return true;
+        }
+
+        Integer count = jdbcTemplate.queryForObject(Sql.EXISTS_ALL_BY_ID.toString(), Integer.class,
+                (Object[]) ids.toArray(new UUID[0]));
+
+        return count != null && count == ids.size();
     }
 }

@@ -9,4 +9,6 @@ public interface MovieRepository {
     Movie findMovieById(UUID id);
 
     List<Movie> findMoviesByFilter(UUID directorId, List<UUID> actorIds, List<UUID> genreIds);
+
+    void insert(Movie movie);
 }
