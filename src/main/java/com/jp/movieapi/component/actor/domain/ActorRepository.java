@@ -7,4 +7,6 @@ public interface ActorRepository {
     List<Actor> findAllActors();
 
     Actor findActorById(UUID id);
+
+    boolean existsAll(List<UUID> ids);
 }
