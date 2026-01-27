@@ -24,10 +24,14 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     public enum Sql {
-        FIND_ALL_MOVIES("SELECT id, title, year, director_id, genre, movie_cast FROM movies"),
-        FIND_MOVIE_BY_ID("SELECT id, title, year, director_id, genre, movie_cast FROM movies where id = ?"),
-        FIND_MOVIES_BY_FILTER("SELECT id, title, year, director_id, genre, movie_cast FROM movies where 1 = 1"),
-        INSERT_MOVIE("INSERT INTO movies (id, title, year, director_id, genre, movie_cast) VALUES (?, ?, ?, ?, ?, ?)");
+        FIND_ALL_MOVIES("SELECT id, title, year, director_id, genre, movie_cast FROM movies WHERE deleted_at IS NULL"),
+        FIND_MOVIE_BY_ID(
+                "SELECT id, title, year, director_id, genre, movie_cast FROM movies WHERE id = ? AND deleted_at IS NULL"),
+        FIND_MOVIES_BY_FILTER(
+                "SELECT id, title, year, director_id, genre, movie_cast FROM movies WHERE 1 = 1 AND deleted_at IS NULL"),
+        INSERT_MOVIE("INSERT INTO movies (id, title, year, director_id, genre, movie_cast) VALUES (?, ?, ?, ?, ?, ?)"),
+        SOFT_DELETE_MOVIE(
+                "UPDATE movies SET deleted_at = now() WHERE id = ? AND deleted_at IS NULL");
 
         private final String query;
 
@@ -85,6 +89,11 @@ public class MovieRepositoryImpl implements MovieRepository {
         if (rows != 1) {
             throw new IllegalStateException("Expected 1 row, got " + rows);
         }
+    }
+
+    @Override
+    public int softDeleteMovie(UUID movieId) {
+        return jdbcTemplate.update(Sql.SOFT_DELETE_MOVIE.toString(), movieId);
     }
 
     private Movie mapRowToMovie(ResultSet rs, int rowNum) throws SQLException {

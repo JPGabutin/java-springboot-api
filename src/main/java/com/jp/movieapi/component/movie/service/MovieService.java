@@ -14,4 +14,6 @@ public interface MovieService {
     List<Movie> getMoviesByFilter(UUID directorId, List<UUID> actorIds, List<UUID> genreIds);
 
     void createMovie(CreateMovieRequest request);
+
+    void deleteMovie(UUID movieId);
 }

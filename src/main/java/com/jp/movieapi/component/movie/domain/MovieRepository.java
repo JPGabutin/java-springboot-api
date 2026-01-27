@@ -11,4 +11,6 @@ public interface MovieRepository {
     List<Movie> findMoviesByFilter(UUID directorId, List<UUID> actorIds, List<UUID> genreIds);
 
     void insert(Movie movie);
+
+    int softDeleteMovie(UUID movieId);
 }

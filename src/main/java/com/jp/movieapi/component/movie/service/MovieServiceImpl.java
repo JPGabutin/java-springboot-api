@@ -13,6 +13,7 @@ import com.jp.movieapi.component.actor.domain.ActorRepository;
 import com.jp.movieapi.component.genre.domain.GenreRepository;
 import com.jp.movieapi.component.movie.domain.Movie;
 import com.jp.movieapi.component.movie.domain.MovieRepository;
+import com.jp.movieapi.component.movie.exception.MovieNotFoundException;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -74,5 +75,15 @@ public class MovieServiceImpl implements MovieService {
                 cast);
 
         movieRepository.insert(movie);
+    }
+
+    @Override
+    @Transactional
+    public void deleteMovie(UUID movieId) {
+        int rows = movieRepository.softDeleteMovie(movieId);
+
+        if (rows != 1) {
+            throw new MovieNotFoundException(movieId);
+        }
     }
 }
