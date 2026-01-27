@@ -17,7 +17,7 @@ public class GenreRepositoryImpl implements GenreRepository {
     }
 
     public enum Sql {
-        EXISTS_ALL_BY_ID("SELECT COUNT(*) FROM genre WHERE id = ANY (?)");
+        EXISTS_ALL_BY_ID("SELECT COUNT(*) FROM genres WHERE id = ANY (?)");
 
         private final String query;
 
