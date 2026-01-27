@@ -26,7 +26,8 @@ public class MovieRepositoryImpl implements MovieRepository {
     public enum Sql {
         FIND_ALL_MOVIES("SELECT id, title, year, director_id, genre, movie_cast FROM movies"),
         FIND_MOVIE_BY_ID("SELECT id, title, year, director_id, genre, movie_cast FROM movies where id = ?"),
-        FIND_MOVIES_BY_FILTER("SELECT id, title, year, director_id, genre, movie_cast FROM movies where 1 = 1");
+        FIND_MOVIES_BY_FILTER("SELECT id, title, year, director_id, genre, movie_cast FROM movies where 1 = 1"),
+        INSERT_MOVIE("INSERT INTO movies (id, title, year, director_id, genre, movie_cast) VALUES (?, ?, ?, ?, ?, ?)");
 
         private final String query;
 
@@ -73,6 +74,17 @@ public class MovieRepositoryImpl implements MovieRepository {
         }
 
         return jdbcTemplate.query(sql.toString(), this::mapRowToMovie, params.toArray());
+    }
+
+    @Override
+    public void insert(Movie movie) throws IllegalStateException {
+        int rows = jdbcTemplate.update(Sql.INSERT_MOVIE.toString(), movie.getId(), movie.getTitle(), movie.getYear(),
+                movie.getDirectorId(), movie.getGenre().toArray(new UUID[0]),
+                movie.getMovieCast().toArray(new UUID[0]));
+
+        if (rows != 1) {
+            throw new IllegalStateException("Expected 1 row, got " + rows);
+        }
     }
 
     private Movie mapRowToMovie(ResultSet rs, int rowNum) throws SQLException {
