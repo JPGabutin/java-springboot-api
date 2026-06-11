@@ -64,6 +64,12 @@ $ cd java-springboot-api
 $ mvn clean install
 ```
 
+### Run docker containers
+
+```bash
+$ docker compose up
+```
+
 ### Run database migrations
 
 * For local db
@@ -75,7 +81,7 @@ $ mvn flyway:migrate
 * Replace config to change database target
 
 ```bash
-mvn flyway:migrate \
+$ mvn flyway:migrate \
   -Dflyway.url=jdbc:postgresql://localhost:5432/moviedb \
   -Dflyway.user=dev \
   -Dflyway.password=dev
@@ -84,24 +90,24 @@ mvn flyway:migrate \
 ### Start the app
 
 ```bash
-mvn spring-boot:run
+$ mvn spring-boot:run
 ```
 
 ### Clean up local db
 
 ```bash
-docker compose down --volumes --remove-orphans
+$ docker compose down --volumes --remove-orphans
 ```
 
 
 ### Clean up flyway migrations
 
 ```bash
-mvn flyway:clean
+$ mvn flyway:clean
 ```
 
 ### Delete and rebuild target directory
 
 ```bash
-mvn clean package
+$ mvn clean package
 ```
