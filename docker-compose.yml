@@ -10,9 +10,22 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./.data/postgres:/var/lib/postgresql/data
     restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: movie-api-pgadmin
+    restart: unless-stopped
+    ports:
+      - 8888:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: dev@mail.com
+      PGADMIN_DEFAULT_PASSWORD: dev
+    volumes:
+      - ./.data/pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgres
 
 volumes:
   postgres_data:
-
