@@ -1,4 +1,4 @@
-package com.jp.movieapi.infrastructure.postgres.genre;
+package com.jp.movieapi.infrastructure.persistence.genre;
 
 import java.util.List;
 import java.util.UUID;
