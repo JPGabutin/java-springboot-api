@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.jp.movieapi.component.actor.domain.Actor;
 import com.jp.movieapi.component.actor.domain.ActorRepository;
+import com.jp.movieapi.internal.common.domain.ResourceNotFoundException;
 
 @Service
 public class ActorServiceImpl implements ActorService {
@@ -23,6 +24,7 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public Actor getActorById(UUID id) {
-        return actorRepository.findActorById(id);
+        return actorRepository.findActorById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Actor", id));
     }
 }
