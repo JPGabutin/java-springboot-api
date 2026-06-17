@@ -5,12 +5,20 @@ import java.util.UUID;
 public class Actor {
     private UUID id;
     private String name;
-    private String birth_date;
+    private String birthDate;
+
+    public Actor() {}
+
+
+    public Actor(String name, String birthDate) {
+        this.name = name;
+        this.birthDate = birthDate;
+    }
 
     public Actor(UUID id, String name, String birthDate) {
         this.id = id;
         this.name = name;
-        this.birth_date = birthDate;
+        this.birthDate = birthDate;
     }
 
     public UUID getId() {
@@ -22,6 +30,6 @@ public class Actor {
     }
 
     public String getBirthDate() {
-        return birth_date;
+        return birthDate;
     }
 }

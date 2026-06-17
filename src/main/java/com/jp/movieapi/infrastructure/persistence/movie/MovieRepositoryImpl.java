@@ -1,4 +1,4 @@
-package com.jp.movieapi.infrastructure.postgres.movie;
+package com.jp.movieapi.infrastructure.persistence.movie;
 
 import java.sql.Array;
 import java.sql.ResultSet;
@@ -24,14 +24,12 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     public enum Sql {
-        FIND_ALL_MOVIES("SELECT id, title, year, director_id, genre, movie_cast FROM movies WHERE deleted_at IS NULL"),
-        FIND_MOVIE_BY_ID(
-                "SELECT id, title, year, director_id, genre, movie_cast FROM movies WHERE id = ? AND deleted_at IS NULL"),
-        FIND_MOVIES_BY_FILTER(
-                "SELECT id, title, year, director_id, genre, movie_cast FROM movies WHERE 1 = 1 AND deleted_at IS NULL"),
-        INSERT_MOVIE("INSERT INTO movies (id, title, year, director_id, genre, movie_cast) VALUES (?, ?, ?, ?, ?, ?)"),
-        SOFT_DELETE_MOVIE(
-                "UPDATE movies SET deleted_at = now() WHERE id = ? AND deleted_at IS NULL");
+        FIND_ALL_MOVIES(
+                "SELECT id, title, year, director_id, genre, movie_cast FROM movies WHERE deleted_at IS NULL"), FIND_MOVIE_BY_ID(
+                        "SELECT id, title, year, director_id, genre, movie_cast FROM movies WHERE id = ? AND deleted_at IS NULL"), FIND_MOVIES_BY_FILTER(
+                                "SELECT id, title, year, director_id, genre, movie_cast FROM movies WHERE 1 = 1 AND deleted_at IS NULL"), INSERT_MOVIE(
+                                        "INSERT INTO movies (id, title, year, director_id, genre, movie_cast) VALUES (?, ?, ?, ?, ?, ?)"), SOFT_DELETE_MOVIE(
+                                                "UPDATE movies SET deleted_at = now() WHERE id = ? AND deleted_at IS NULL");
 
         private final String query;
 
@@ -58,7 +56,8 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public List<Movie> findMoviesByFilter(UUID directorId, List<UUID> actorIds, List<UUID> genreIds) {
+    public List<Movie> findMoviesByFilter(UUID directorId, List<UUID> actorIds,
+            List<UUID> genreIds) {
         StringBuilder sql = new StringBuilder(Sql.FIND_MOVIES_BY_FILTER.toString());
         List<Object> params = new ArrayList<>();
 
@@ -82,7 +81,8 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     public void insert(Movie movie) throws IllegalStateException {
-        int rows = jdbcTemplate.update(Sql.INSERT_MOVIE.toString(), movie.getId(), movie.getTitle(), movie.getYear(),
+        int rows = jdbcTemplate.update(Sql.INSERT_MOVIE.toString(), movie.getId(), movie.getTitle(),
+                movie.getYear(),
                 movie.getDirectorId(), movie.getGenre().toArray(new UUID[0]),
                 movie.getMovieCast().toArray(new UUID[0]));
 
