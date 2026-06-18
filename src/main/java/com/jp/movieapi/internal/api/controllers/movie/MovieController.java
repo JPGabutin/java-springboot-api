@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jp.movieapi.component.movie.domain.Movie;
 import com.jp.movieapi.component.movie.service.MovieService;
+import com.jp.movieapi.infrastructure.persistence.movie.MovieEntity;
+import com.jp.movieapi.internal.api.controllers.movie.dto.GetMovieResponse;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -41,5 +43,22 @@ public class MovieController {
             @RequestParam(required = false) List<UUID> genreIds) {
         List<Movie> movies = movieService.getMoviesByFilter(directorId, actorIds, genreIds);
         return ResponseEntity.ok(movies);
+    }
+
+    private GetMovieResponse toGetMovieResponse(Movie movie) {
+        GetMovieResponse movieResponse =
+                new GetMovieResponse(movie.getId(), movie.getTitle(),
+                        movie.getYear(),
+                        movie.getDirectorId());
+
+        if (!movie.getGenre().isEmpty()) {
+            movieResponse.setGenre(movie.getGenre());
+        }
+
+        if (!movie.getMovieCast().isEmpty()) {
+            movieResponse.setMovieCast(movie.getMovieCast());
+        }
+
+        return movieResponse;
     }
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-
+import java.util.stream.Collectors;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -18,9 +18,11 @@ import com.jp.movieapi.component.movie.domain.MovieRepository;
 public class MovieRepositoryImpl implements MovieRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private final JpaMovieRepository jpaMovieRepository;
 
-    public MovieRepositoryImpl(JdbcTemplate jdbcTemplate) {
+    public MovieRepositoryImpl(JdbcTemplate jdbcTemplate, JpaMovieRepository jpaMovieRepository) {
         this.jdbcTemplate = jdbcTemplate;
+        this.jpaMovieRepository = jpaMovieRepository;
     }
 
     public enum Sql {
@@ -45,7 +47,8 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     public List<Movie> findAllMovies() {
-        return jdbcTemplate.query(Sql.FIND_ALL_MOVIES.toString(), this::mapRowToMovie);
+        List<MovieEntity> moviesList = jpaMovieRepository.findAll();
+        return moviesList.stream().map(this::toDomain).collect(Collectors.toList());
     }
 
     @Override
@@ -109,5 +112,21 @@ public class MovieRepositoryImpl implements MovieRepository {
     private List<UUID> mapUuidArray(ResultSet rs, String column) throws SQLException {
         Array array = rs.getArray(column);
         return array == null ? List.of() : Arrays.asList((UUID[]) array.getArray());
+    }
+
+    private Movie toDomain(MovieEntity movieEntity) {
+        Movie movie =
+                new Movie(movieEntity.getId(), movieEntity.getTitle(), movieEntity.getYear(),
+                        movieEntity.getDirectorId());
+
+        if (!movieEntity.getGenre().isEmpty()) {
+            movie.setGenre(movieEntity.getGenre());
+        }
+
+        if (!movieEntity.getMovieCast().isEmpty()) {
+            movie.setMovieCast(movieEntity.getMovieCast());
+        }
+
+        return movie;
     }
 }

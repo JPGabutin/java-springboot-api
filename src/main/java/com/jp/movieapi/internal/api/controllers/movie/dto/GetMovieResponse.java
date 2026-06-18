@@ -1,39 +1,24 @@
-package com.jp.movieapi.infrastructure.persistence.movie;
+package com.jp.movieapi.internal.api.controllers.movie.dto;
 
 import java.util.List;
 import java.util.UUID;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "movies")
-public class MovieEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+public class GetMovieResponse {
     private UUID id;
-
-    @Column(name = "title", nullable = false)
     private String title;
-
-    @Column(name = "year", nullable = false)
     private String year;
-
-    @Column(name = "director_id", nullable = false)
     private UUID directorId;
-
-    @Column(name = "genre")
     private List<UUID> genre;
-
-    @Column(name = "movie_cast")
     private List<UUID> movieCast;
 
-    public MovieEntity() {}
+    public GetMovieResponse(UUID id, String title, String year, UUID directorId) {
+        this.id = id;
+        this.title = title;
+        this.year = year;
+        this.directorId = directorId;
+    }
 
-    public MovieEntity(UUID id, String title, String year, UUID directorId, List<UUID> genre,
+    public GetMovieResponse(UUID id, String title, String year, UUID directorId, List<UUID> genre,
             List<UUID> movieCast) {
         this.id = id;
         this.title = title;
@@ -66,5 +51,13 @@ public class MovieEntity {
     public List<UUID> getMovieCast() {
         return movieCast;
     }
-}
 
+    public void setGenre(List<UUID> genre) {
+        this.genre = genre;
+    }
+
+    public void setMovieCast(List<UUID> movieCast) {
+        this.movieCast = movieCast;
+    }
+
+}
