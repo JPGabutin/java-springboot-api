@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jp.movieapi.component.movie.domain.Movie;
 import com.jp.movieapi.component.movie.service.MovieService;
-import com.jp.movieapi.infrastructure.persistence.movie.MovieEntity;
 import com.jp.movieapi.internal.api.controllers.movie.dto.GetMovieResponse;
 
 @RestController
@@ -31,9 +30,9 @@ public class MovieController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Movie> getMovieById(@PathVariable UUID id) {
+    public ResponseEntity<GetMovieResponse> getMovieById(@PathVariable UUID id) {
         Movie movie = movieService.getMovieById(id);
-        return ResponseEntity.ok(movie);
+        return ResponseEntity.ok(toGetMovieResponse(movie));
     }
 
     @GetMapping("/filter")

@@ -3,7 +3,6 @@ package com.jp.movieapi.component.movie.service;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,11 +34,8 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie getMovieById(UUID id) {
-        try {
-            return movieRepository.findMovieById(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Movie", id);
-        }
+        return movieRepository.findMovieById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Movie", id));
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -52,10 +53,8 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public Movie findMovieById(UUID id) {
-        return jdbcTemplate.queryForObject(Sql.FIND_MOVIE_BY_ID.toString(),
-                this::mapRowToMovie,
-                id);
+    public Optional<Movie> findMovieById(UUID id) {
+        return jpaMovieRepository.findById(id).map(this::toDomain);
     }
 
     @Override
